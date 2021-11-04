@@ -28,9 +28,8 @@ def get_namespaces(args) -> Iterable[Dict]:
     logger = Logger.get_instance()
 
     if args.input_namespaces_file is None:
-        return (AdmissionReviewRequest(
-            {'apiVersion': 'v1', 'kind': 'Namespace', 'metadata': {'name': args.input_chart_namespace, 'labels': {}}}
-        ),)
+        logger.info(f'No input namespaces file passed, use {args.input_default_namespace} namespace with no labels.')
+        return [{'apiVersion': 'v1', 'kind': 'Namespace', 'metadata': {'name': args.input_default_namespace, 'labels': {}}}]
 
     logger.debug('Read namespaces.')
     namespaces_str = read_file_to_str(args.input_namespaces_file)
@@ -38,6 +37,9 @@ def get_namespaces(args) -> Iterable[Dict]:
     return parse_manifests(namespaces_str)
 
 def convert_namespaces_to_admission_reviews(namespaces):
+    logger = Logger.get_instance()
+
+    logger.debug('Convert namespaces to admission reviews.')
     objects = tuple(namespaces)
     validate(objects)
 

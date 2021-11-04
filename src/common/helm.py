@@ -4,7 +4,7 @@
 
 from subprocess import CalledProcessError
 from typing import Dict, Iterable
-from yaml import load_all, FullLoader
+from yaml import load_all, SafeLoader
 
 from .cmd import call_command, log_called_process_output
 from .exceptions import TemplateError
@@ -33,7 +33,7 @@ def render_manifests(helm_binary: str, chart_location: str, values_yaml_location
 def parse_manifests(manifests: str) -> Iterable[Dict]:
     manifests = tuple(
         manifest
-        for manifest in load_all(manifests, Loader=FullLoader)
+        for manifest in load_all(manifests, Loader=SafeLoader)
         if manifest is not None
     )
     validate(manifests)

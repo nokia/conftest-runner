@@ -145,6 +145,16 @@ python3 conftest-runner.py \
     )
 
     parser.add_argument(
+        '--input-default-namespace',
+        '-idn',
+        dest='input_default_namespace',
+        action='store',
+        help='namespace used as a default when input-namespaces-file not provided',
+        metavar='<name>',
+        default='default',
+    )
+
+    parser.add_argument(
         '--output-format',
         '-o',
         dest='output_format',
