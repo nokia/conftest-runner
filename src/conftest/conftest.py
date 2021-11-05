@@ -7,7 +7,7 @@ from yaml import safe_dump_all
 
 from admissionreviewrequest import AdmissionReviewRequest
 from common.cmd import call_command, log_called_process_output
-from common.logger import Logger
+from common.logger import Logger, info_passed, info_failed
 from constrainttemplates import Policy
 from inputobjects import filter_matching_constraint
 import re
@@ -89,9 +89,9 @@ def log_overall_summary(summary, logger):
     formatted_output = f'{summary["tests"]} tests, {summary["passed"]} passed, {summary["warnings"]} warnings, ' \
                        f'{summary["failures"]} failures, {summary["exceptions"]} exceptions'
     if summary['tests'] == summary['passed']:
-        logger.info("\x1b[32mPASSED " + formatted_output + "\033[0m")
+        info_passed(logger, formatted_output)
     else:
-        logger.info("\x1b[31mFAILURE " + formatted_output + "\033[0m")
+        info_failed(logger, formatted_output)
 
 
 def run_conftest(
@@ -106,6 +106,7 @@ def run_conftest(
     fail_fast: bool
 ):
     logger = Logger.get_instance()
+    logger.debug('Call run_conftest')
 
     overall_status_summary = {
         'tests': 0,

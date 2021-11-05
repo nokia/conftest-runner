@@ -6,7 +6,7 @@ from logging import getLogger, StreamHandler, INFO, Formatter, FileHandler
 from sys import stdout
 
 
-class Logger:
+class Logger():
     _instance = None
     _handler = None
 
@@ -33,8 +33,13 @@ class Logger:
 
             Logger._instance = logger
 
-
 def set_log_level(level):
     Logger.get_instance().setLevel(level)
     for handler in Logger.get_instance().handlers:
         handler.setLevel(level)
+
+def info_passed(logger, formatted_output):
+    logger.info("\x1b[32mPASSED " + formatted_output + "\033[0m")
+
+def info_failed(logger, formatted_output):
+    logger.info("\x1b[31mFAILURE " + formatted_output + "\033[0m")

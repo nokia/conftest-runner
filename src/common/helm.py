@@ -11,7 +11,7 @@ from .exceptions import TemplateError
 from .logger import Logger
 
 
-def render_manifests(helm_binary: str, chart_location: str, values_yaml_location='', namespace='',
+def render_manifests(helm_binary: str, chart_location: str, values_yaml_location=None, namespace=None,
                      release_name='') -> str:
     logger = Logger.get_instance()
 

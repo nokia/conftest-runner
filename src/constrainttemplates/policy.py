@@ -12,6 +12,6 @@ class Policy(object):
         self.policy = policy
 
 def create_policies_dir(args) -> str:
-    policies_dir = create_temp_dir(args.no_cleanup)
+    policies_dir = create_temp_dir(not args.no_cleanup)
     Logger.get_instance().debug('Created policies directory: ' + policies_dir)
     return policies_dir

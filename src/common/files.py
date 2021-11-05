@@ -10,12 +10,12 @@ from tempfile import mkdtemp
 from common.exceptions import FileError
 
 
-def create_temp_dir(no_cleanup: bool) -> str:
+def create_temp_dir(cleanup: bool) -> str:
     try:
         dir_path = mkdtemp()
     except OSError as e:
         raise FileError('Creating directory failed: ' + str(e))
-    if not no_cleanup:
+    if cleanup:
         register(remove_dir, dir_path)
     return dir_path
 

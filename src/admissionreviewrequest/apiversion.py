@@ -22,6 +22,6 @@ class Resource(ApiVersion):
 
 def parse_api_version(api_version: str) -> ApiVersion:
     if '/' in api_version:
-        return ApiVersion(*api_version.split('/'))
+        return ApiVersion(*api_version.split('/', 1))
 
     return ApiVersion('', api_version)
