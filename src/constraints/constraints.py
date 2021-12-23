@@ -93,7 +93,7 @@ def is_invalid_kind_specification(kind_specification: dict) -> bool:
 def get_constraints(args) -> Iterable[Dict]:
     logger = Logger.get_instance()
 
-    if args.policy_constraint_templates_file:
+    if args.policy_constraints_file:
         logger.debug('Read constraints.')
         constraint_templates_str = read_file_to_str(args.policy_constraints_file)
     else:
