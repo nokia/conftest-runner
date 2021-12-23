@@ -43,26 +43,40 @@ def filter_matching_constraint(
     namespaces_labels: Iterable[AdmissionReviewRequest],
 ) -> Iterable[AdmissionReviewRequest]:
 
+    logger = Logger.get_instance()
+    logger.debug(f"filter_matching_constraint: constraint_match_filter: {constraint_match_filter}")
+
+    logger.debug(f"filter_matching_constraint: Phase-start: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'kinds' in constraint_match_filter:
         admission_reviews = tuple(filter_by_kinds(admission_reviews, constraint_match_filter['kinds']))
+
+    logger.debug(f"filter_matching_constraint: Phase-after-kinds: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'namespaces' in constraint_match_filter:
-        admission_reviews = filter_by_namespaces(admission_reviews, constraint_match_filter['namespaces'])
+        admission_reviews = tuple(filter_by_namespaces(admission_reviews, constraint_match_filter['namespaces']))
+
+    logger.debug(f"filter_matching_constraint: Phase-after-namespaces: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'excludedNamespaces' in constraint_match_filter:
-        admission_reviews = filter_by_excluded_namespaces(
+        admission_reviews = tuple(filter_by_excluded_namespaces(
             admission_reviews, constraint_match_filter['excludedNamespaces']
-        )
+        ))
+
+    logger.debug(f"filter_matching_constraint: Phase-after-excludedNamespaces: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'namespaceSelector' in constraint_match_filter:
-        admission_reviews = filter_by_namespaces(
+        admission_reviews = tuple(filter_by_namespaces(
             admission_reviews,
-            (
+            [
                 admission_review.name
                 for admission_review in filter_by_label_selector(
                     namespaces_labels, constraint_match_filter['namespaceSelector']
                 )
-            ),
-        )
+            ],
+        ))
+
+    logger.debug(f"filter_matching_constraint: Phase-after-namespaceSelector: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'labelSelector' in constraint_match_filter:
-        admission_reviews = filter_by_label_selector(admission_reviews, constraint_match_filter['labelSelector'])
+        admission_reviews = tuple(filter_by_label_selector(admission_reviews, constraint_match_filter['labelSelector']))
+
+    logger.debug(f"filter_matching_constraint: Phase-after-labelSelector: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'scope' in constraint_match_filter:
         Logger.get_instance().warn('Scope filtering is not supported')
 
@@ -86,6 +100,7 @@ def filter_by_kinds(
 def filter_by_namespaces(
     objects: Iterable[AdmissionReviewRequest], namespaces: Iterable[str]
 ) -> Iterable[AdmissionReviewRequest]:
+
     return (obj for obj in objects if obj.namespace in namespaces)
 
 
