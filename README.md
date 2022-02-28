@@ -18,6 +18,8 @@ Required dependencies:
 - installed [Helm](https://helm.sh/) (Helm 3 preferred)
 - installed [conftest](https://github.com/open-policy-agent/conftest)
 - installed [Python 3](https://www.python.org/)
+- installed additional Python packages like `pyyaml`
+    - Run `python3 -m pip install -r requirements.txt` to install it.
 
 ## Usage scenarios
 
