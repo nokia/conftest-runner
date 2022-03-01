@@ -40,6 +40,7 @@ def convert_namespaces_to_admission_reviews(namespaces):
     logger = Logger.get_instance()
 
     logger.debug('Convert namespaces to admission reviews.')
+    logger.debug(f'namespaces: {namespaces}')
     objects = tuple(namespaces)
     validate(objects)
 

@@ -36,6 +36,8 @@ def validate(objects: Iterable[Dict]):
         ):
             raise InvalidManifestError('Encountered invalid obj: ' + str(obj))
 
+def admission_reviews_to_str(admission_reviews):
+    return f"{[{'name': admission_review.name, 'namespace': admission_review.namespace} for admission_review in admission_reviews]}"
 
 def filter_matching_constraint(
     admission_reviews: Iterable[AdmissionReviewRequest],
@@ -46,21 +48,21 @@ def filter_matching_constraint(
     logger = Logger.get_instance()
     logger.debug(f"filter_matching_constraint: constraint_match_filter: {constraint_match_filter}")
 
-    logger.debug(f"filter_matching_constraint: Phase-start: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
+    logger.debug(f"filter_matching_constraint: Phase-start - filtered objects: {admission_reviews_to_str(admission_reviews)}")
     if 'kinds' in constraint_match_filter:
         admission_reviews = tuple(filter_by_kinds(admission_reviews, constraint_match_filter['kinds']))
+    logger.debug(f"filter_matching_constraint: Phase-after-kinds - filtered objects: {admission_reviews_to_str(admission_reviews)}")
 
-    logger.debug(f"filter_matching_constraint: Phase-after-kinds: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'namespaces' in constraint_match_filter:
         admission_reviews = tuple(filter_by_namespaces(admission_reviews, constraint_match_filter['namespaces']))
+    logger.debug(f"filter_matching_constraint: Phase-after-namespaces - filtered objects: {admission_reviews_to_str(admission_reviews)}")
 
-    logger.debug(f"filter_matching_constraint: Phase-after-namespaces: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'excludedNamespaces' in constraint_match_filter:
         admission_reviews = tuple(filter_by_excluded_namespaces(
             admission_reviews, constraint_match_filter['excludedNamespaces']
         ))
+    logger.debug(f"filter_matching_constraint: Phase-after-excludedNamespaces - filtered objects: {admission_reviews_to_str(admission_reviews)}")
 
-    logger.debug(f"filter_matching_constraint: Phase-after-excludedNamespaces: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'namespaceSelector' in constraint_match_filter:
         admission_reviews = tuple(filter_by_namespaces(
             admission_reviews,
@@ -71,12 +73,12 @@ def filter_matching_constraint(
                 )
             ],
         ))
+    logger.debug(f"filter_matching_constraint: Phase-after-namespaceSelector - filtered objects: {admission_reviews_to_str(admission_reviews)}")
 
-    logger.debug(f"filter_matching_constraint: Phase-after-namespaceSelector: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'labelSelector' in constraint_match_filter:
         admission_reviews = tuple(filter_by_label_selector(admission_reviews, constraint_match_filter['labelSelector']))
+    logger.debug(f"filter_matching_constraint: Phase-after-labelSelector - filtered objects: {admission_reviews_to_str(admission_reviews)}")
 
-    logger.debug(f"filter_matching_constraint: Phase-after-labelSelector: {[(admission_review.name, admission_review.namespace) for admission_review in admission_reviews]}")
     if 'scope' in constraint_match_filter:
         Logger.get_instance().warn('Scope filtering is not supported')
 
