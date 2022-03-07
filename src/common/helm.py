@@ -11,11 +11,11 @@ from .exceptions import TemplateError
 from .logger import Logger
 
 
-def render_manifests(helm_binary: str, chart_location: str, values_yaml_location=None, namespace=None,
+def render_manifests(helm_binary: str, helm_options: str, chart_location: str, values_yaml_location=None, namespace=None,
                      release_name='') -> str:
     logger = Logger.get_instance()
 
-    command = f'{helm_binary} template {release_name} {chart_location}'
+    command = f'{helm_binary} template {helm_options} {release_name} {chart_location}'
     if values_yaml_location:
         command += ' -f ' + values_yaml_location
     if namespace:

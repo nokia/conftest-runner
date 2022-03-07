@@ -71,6 +71,7 @@ def get_constraint_templates(args) -> Iterable[Dict]:
         logger.debug('Rendering constraint templates.')
         constraint_templates_str = render_manifests(
             args.helm_binary,
+            args.helm_options,
             args.policy_chart_constraint_templates,
             args.policy_chart_constraint_templates_values
         )

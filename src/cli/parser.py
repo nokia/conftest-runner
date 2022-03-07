@@ -215,6 +215,16 @@ python3 conftest-runner.py \
         metavar='<binary path>',
     )
 
+    parser.add_argument(
+        '--helm-options',
+        '-ho',
+        dest='helm_options',
+        action='store',
+        default="",
+        help='Additional helm options, which will be passed to the "helm template" command',
+        metavar='<options>',
+    )
+
     args = parser.parse_args()
     if (args.input_kubernetes_objects and args.input_chart):
         parser.error("Options --input-kubernetes-objects and --input-chart are mutually exclusive!")

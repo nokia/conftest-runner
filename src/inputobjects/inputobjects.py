@@ -155,6 +155,7 @@ def get_kubernetes_objects(args) -> Iterable[Dict]:
         logger.debug('Rendering Kubernetes objects to test.')
         kubernetes_objects_str = render_manifests(
             args.helm_binary,
+            args.helm_options,
             args.input_chart,
             args.input_chart_values,
             args.input_chart_namespace,
