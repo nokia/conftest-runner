@@ -61,6 +61,11 @@ def extract_policies(constraint_templates: Iterable[Dict]) -> Dict[str, Policy]:
         if namespace_match is not None
     }
 
+
+def filter_templates_by_kind(templates: Iterable[Dict], kind: str) -> Iterable[Dict]:
+    return [template for template in templates if template['kind'] == kind]
+
+
 def get_constraint_templates(args) -> Iterable[Dict]:
     logger = Logger.get_instance()
 
@@ -76,4 +81,4 @@ def get_constraint_templates(args) -> Iterable[Dict]:
             args.policy_chart_constraint_templates_values
         )
     logger.debug('Parsing constraint templates.')
-    return parse_manifests(constraint_templates_str)
+    return filter_templates_by_kind(parse_manifests(constraint_templates_str), 'ConstraintTemplate')
