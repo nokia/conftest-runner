@@ -62,7 +62,7 @@ def extract_policies(constraint_templates: Iterable[Dict]) -> Dict[str, Policy]:
     }
 
 
-def filter_templates_by_kind(templates: Iterable[Dict], kind):
+def filter_templates_by_kind(templates: Iterable[Dict], kind: str) -> Iterable[Dict]:
     return [template for template in templates if template['kind'] == kind]
 
 
