@@ -161,7 +161,7 @@ python3 conftest-runner.py \
         action='store',
         help='conftest command output format',
         metavar='<output>',
-        choices=('stdout', 'json', 'tap', 'table', 'junit'),
+        choices=('stdout', 'json', 'tap', 'table', 'junit', 'github'),
     )
 
     parser.add_argument(

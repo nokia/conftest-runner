@@ -81,3 +81,15 @@ brew install conftest
 1. Download desired version from https://github.com/open-policy-agent/conftest/releases.
 2. Unpack.
 3. Add the path to unpacked folder to PATH in Environment Variables.
+
+## Running tests
+
+1. Install pytest
+```console
+pip install -U pytest
+```
+
+2. Go to conftest-runner repo root directory and run:
+```console
+pytest
+```

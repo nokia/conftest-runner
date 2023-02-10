@@ -11,7 +11,7 @@ from common.logger import Logger
 from common.files import read_file_to_str
 from admissionreviewrequest import AdmissionReviewRequest
 
-def convert_kubernetes_objects_to_admission_reviews(kubernetes_objects: dict, namespace: str) -> tuple:
+def convert_kubernetes_objects_to_admission_reviews(kubernetes_objects: Iterable[dict], namespace: str) -> tuple:
     objects = tuple(kubernetes_objects)
     validate(objects)
 
