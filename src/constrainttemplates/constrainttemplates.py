@@ -1,7 +1,7 @@
 # Copyright 2021 Nokia
 # Licensed under the BSD 3-Clause License.
 # SPDX-License-Identifier: BSD-3-Clause
-
+from os import path
 from re import search, MULTILINE
 from typing import Dict, Iterable
 
@@ -13,7 +13,7 @@ from common.helm import render_manifests, parse_manifests
 from .policy import Policy
 
 
-def generate_policies(constraint_templates: str, output_dir: str
+def generate_policies(constraint_templates: Iterable[Dict], output_dir: str
 ) -> Dict[str, Policy]:
 
     logger = Logger.get_instance()
@@ -25,7 +25,7 @@ def generate_policies(constraint_templates: str, output_dir: str
 
     logger.debug('Saving policies into files.')
     for policy in policies.values():
-        write_to_file(output_dir, policy.namespace + '.rego', policy.policy)
+        write_to_file(path.join(output_dir, policy.namespace + '.rego'), policy.policy)
 
     return policies
 
