@@ -1,0 +1,10 @@
++---------+----------------------------------+--------------------------------+
+| RESULT  |               FILE               |            MESSAGE             |
++---------+----------------------------------+--------------------------------+
+| success | examples/kubernetes/service.yaml |                                |
+| success | examples/kubernetes/service.yaml |                                |
+| success | examples/kubernetes/service.yaml |                                |
+| success | examples/kubernetes/service.yaml |                                |
+| warning | examples/kubernetes/service.yaml | Found service hello-kubernetes |
+|         |                                  | but services are not allowed   |
++---------+----------------------------------+--------------------------------+

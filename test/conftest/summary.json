@@ -1,0 +1,23 @@
+[
+        {
+                "filename": "examples/kubernetes/deployment.yaml",
+                "successes": 1,
+                "failures": [
+                        {
+                                "msg": "Containers must not run as root in Deployment hello-kubernetes"
+                        },
+                        {
+                                "msg": "Deployment hello-kubernetes must provide app/release labels for pod selectors"
+                        },
+                        {
+                                "msg": "hello-kubernetes must include Kubernetes recommended labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/#labels"
+                        },
+                        {
+                                "msg": "Found deployment hello-kubernetes but deployments are not allowed",
+                                "metadata": {
+                                        "details": {}
+                                }
+                        }
+                ]
+        }
+]
