@@ -1,0 +1,7 @@
+1..5
+not ok 1 - examples/kubernetes/deployment.yaml - Found deployment hello-kubernetes but deployments are not allowed
+not ok 2 - examples/kubernetes/deployment.yaml - Containers must not run as root in Deployment hello-kubernetes
+not ok 3 - examples/kubernetes/deployment.yaml - Deployment hello-kubernetes must provide app/release labels for pod selectors
+not ok 4 - examples/kubernetes/deployment.yaml - hello-kubernetes must include Kubernetes recommended labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/#labels
+# successes
+ok 5 - examples/kubernetes/deployment.yaml -

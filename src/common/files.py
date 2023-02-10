@@ -27,12 +27,13 @@ def remove_dir(dir_path: str):
         raise FileError('Removing dir failed: ' + str(e))
 
 
-def write_to_file(directory: str, file_name: str, content: str):
+def write_to_file(file_path: str, content: str):
     try:
-        with open(path.join(directory, file_name), 'w') as f:
+        with open(file_path, 'w') as f:
             f.write(content)
     except IOError as e:
         raise FileError('Creating file failed: ' + str(e))
+
 
 def read_file_to_str(path: str) -> str:
     try:

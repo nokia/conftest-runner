@@ -1,0 +1,161 @@
+---
+# Source: simple-chart/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-simple-chart
+  labels:
+    helm.sh/chart: simple-chart-0.1.0
+    app.kubernetes.io/name: simple-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: simple-chart
+    app.kubernetes.io/instance: release-name
+---
+# Source: simple-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-simple-chart
+  labels:
+    helm.sh/chart: simple-chart-0.1.0
+    app.kubernetes.io/name: simple-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: simple-chart
+      app.kubernetes.io/instance: release-name
+  template:
+    metadata:
+      annotations:
+        test: annotation
+      labels:
+        app.kubernetes.io/name: simple-chart
+        app.kubernetes.io/instance: release-name
+    spec:
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 2000
+      containers:
+        - name: simple-chart
+          securityContext:
+            capabilities:
+              drop:
+              - ALL
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 1000
+          image: "test:latest"
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            limits:
+              cpu: 100m
+              memory: 128Mi
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+# Source: simple-chart/templates/hpa.yaml
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: release-name-simple-chart
+  labels:
+    helm.sh/chart: simple-chart-0.1.0
+    app.kubernetes.io/name: simple-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: release-name-simple-chart
+  minReplicas: 1
+  maxReplicas: 100
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: 80
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: 80
+---
+# Source: simple-chart/templates/ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: release-name-simple-chart
+  labels:
+    helm.sh/chart: simple-chart-0.1.0
+    app.kubernetes.io/name: simple-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/tls-acme: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "test.com"
+      secretName: chart-example-tls
+  rules:
+    - host: "test.com"
+      http:
+        paths:
+          - path: /test
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: release-name-simple-chart
+                port:
+                  number: 8080
+---
+# Source: simple-chart/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-simple-chart-test-connection"
+  labels:
+    helm.sh/chart: simple-chart-0.1.0
+    app.kubernetes.io/name: simple-chart
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.16.0"
+    app.kubernetes.io/managed-by: Helm
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['release-name-simple-chart:8080']
+  restartPolicy: Never

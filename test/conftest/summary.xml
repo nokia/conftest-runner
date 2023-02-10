@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+        <testsuite tests="5" failures="4" time="0.000" name="conftest">
+                <properties>
+                        <property name="go.version" value="go1.15.1"></property>
+                </properties>
+                <testcase classname="conftest" name="examples/kubernetes/deployment.yaml - Containers must not run as root in Deployment hello-kubernetes" time="0.000">
+                        <failure message="Failed" type="">Containers must not run as root in Deployment hello-kubernetes</failure>
+                </testcase>
+                <testcase classname="conftest" name="examples/kubernetes/deployment.yaml - Deployment hello-kubernetes must provide app/release labels for pod selectors" time="0.000">
+                        <failure message="Failed" type="">Deployment hello-kubernetes must provide app/release labels for pod selectors</failure>
+                </testcase>
+                <testcase classname="conftest" name="examples/kubernetes/deployment.yaml - hello-kubernetes must include Kubernetes recommended labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/#labels" time="0.000">
+                        <failure message="Failed" type="">hello-kubernetes must include Kubernetes recommended labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/#labels</failure>
+                </testcase>
+                <testcase classname="conftest" name="examples/kubernetes/deployment.yaml - Found deployment hello-kubernetes but deployments are not allowed" time="0.000">
+                        <failure message="Failed" type="">Found deployment hello-kubernetes but deployments are not allowed</failure>
+                </testcase>
+                <testcase classname="conftest" name="examples/kubernetes/deployment.yaml - " time="0.000"></testcase>
+        </testsuite>
+</testsuites>
